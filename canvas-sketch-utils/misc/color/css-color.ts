@@ -112,9 +112,10 @@ export function parseColor(color: string | any) {
 }
 
 export function style(color: string) {
-  var result = module.exports.parse(color);
+  var result = parseColor(color);
   if (result) {
     var rgba = result.rgba;
+    //@ts-expect-error some
     return rgbStyle(rgba[0], rgba[1], rgba[2], rgba[3]);
   }
   return null;

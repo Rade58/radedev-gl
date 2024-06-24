@@ -14,12 +14,27 @@ importers:
       '@react-three/fiber':
         specifier: ^8.16.8
         version: 8.16.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(three@0.165.0)
+      abs-svg-path:
+        specifier: ^0.1.1
+        version: 0.1.1
       almost-equal:
         specifier: ^1.1.0
         version: 1.1.0
+      array-almost-equal:
+        specifier: ^1.0.0
+        version: 1.0.0
       canvas-sketch-util:
         specifier: ^1.10.0
         version: 1.10.0
+      clone:
+        specifier: ^2.1.2
+        version: 2.1.2
+      convert-length:
+        specifier: ^1.0.1
+        version: 1.0.1
+      d3-path:
+        specifier: ^3.1.0
+        version: 3.1.0
       defined:
         specifier: ^1.0.1
         version: 1.0.1
@@ -29,34 +44,79 @@ importers:
       float-rgb2hsl:
         specifier: ^1.0.1
         version: 1.0.1
+      lineclip:
+        specifier: ^1.1.5
+        version: 1.1.5
       next:
         specifier: 14.2.4
         version: 14.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      parse-color:
+        specifier: ^1.0.0
+        version: 1.0.0
+      parse-svg-path:
+        specifier: ^0.1.2
+        version: 0.1.2
+      primitive-quad:
+        specifier: ^2.0.0
+        version: 2.0.0
       react:
         specifier: ^18
         version: 18.3.1
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
+      regl:
+        specifier: ^2.1.0
+        version: 2.1.0
+      seed-random:
+        specifier: ^2.2.0
+        version: 2.2.0
+      simplex-noise:
+        specifier: ^2.4.0
+        version: 2.4.0
+      svg-path-contours:
+        specifier: ^2.0.0
+        version: 2.0.0
       three:
         specifier: ^0.165.0
         version: 0.165.0
     devDependencies:
+      '@types/abs-svg-path':
+        specifier: ^0.1.3
+        version: 0.1.3
       '@types/almost-equal':
         specifier: ^1.1.3
         version: 1.1.3
+      '@types/clone':
+        specifier: ^2.1.4
+        version: 2.1.4
+      '@types/d3-path':
+        specifier: ^3.1.0
+        version: 3.1.0
       '@types/defined':
         specifier: ^1.0.2
         version: 1.0.2
+      '@types/lineclip':
+        specifier: ^1.1.1
+        version: 1.1.1
       '@types/node':
         specifier: ^20
         version: 20.14.7
+      '@types/parse-color':
+        specifier: ^1.0.3
+        version: 1.0.3
       '@types/react':
         specifier: ^18
         version: 18.3.3
       '@types/react-dom':
         specifier: ^18
         version: 18.3.0
+      '@types/seed-random':
+        specifier: ^2.2.4
+        version: 2.2.4
+      '@types/svg-path-contours':
+        specifier: ^2.0.1
+        version: 2.0.1
       '@types/three':
         specifier: ^0.165.0
         version: 0.165.0
@@ -299,8 +359,17 @@ packages:
   '@tweenjs/tween.js@23.1.2':
     resolution: {integrity: sha512-kMCNaZCJugWI86xiEHaY338CU5JpD0B97p1j1IKNn/Zto8PgACjQx0UxbHjmOcLl/dDOBnItwD07KmCs75pxtQ==}
 
+  '@types/abs-svg-path@0.1.3':
+    resolution: {integrity: sha512-kprGLHW7zTKkf9NkTO/O4l1BBcLgZGYfZyiYV7lvF6xHypAmi0d7RT/kk+MXkumMcQm0O244lHxSWerV78WQIg==}
+
   '@types/almost-equal@1.1.3':
     resolution: {integrity: sha512-038dTvcEKRX4Ns/ZLldCvtDBo0oDe9+RJFRU996FUNWvN6k/DMZyaHP7zXYcVUneOVpM6KZpHNSGWJoGJ5zJhw==}
+
+  '@types/clone@2.1.4':
+    resolution: {integrity: sha512-NKRWaEGaVGVLnGLB2GazvDaZnyweW9FJLLFL5LhywGJB3aqGMT9R/EUoJoSRP4nzofYnZysuDmrEJtJdAqUOtQ==}
+
+  '@types/d3-path@3.1.0':
+    resolution: {integrity: sha512-P2dlU/q51fkOc/Gfl3Ul9kicV7l+ra934qBFXCFhrZMOL6du1TM0pm1ThYvENukyOn5h9v+yMJ9Fn5JK4QozrQ==}
 
   '@types/defined@1.0.2':
     resolution: {integrity: sha512-fj9QIrpkwMHVgCKFF75xR59l43r6DbmBCcW0mJ0Rx+hrtoXrHl1uoZNLi6NRk/Q6TtqnXsLV+qN6A8fE0b5JgA==}
@@ -311,11 +380,17 @@ packages:
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
 
+  '@types/lineclip@1.1.1':
+    resolution: {integrity: sha512-4RVwH9OGIV23G5qpFIow0gYmpgdWiCGep2TN2m1ZmI98J+srfWc3bufjbh2sVgTsTOUvC259lImVIozcKGDgEA==}
+
   '@types/node@20.14.7':
     resolution: {integrity: sha512-uTr2m2IbJJucF3KUxgnGOZvYbN0QgkGyWxG6973HCpMYFy2KfcgYuIwkJQMQkt1VbBMlvWRbpshFTLxnxCZjKQ==}
 
   '@types/offscreencanvas@2019.7.3':
     resolution: {integrity: sha512-ieXiYmgSRXUDeOntE1InxjWyvEelZGP63M+cGuquuRLuIKKT1osnkXjxev9B7d1nXSug5vpunx+gNlbVxMlC9A==}
+
+  '@types/parse-color@1.0.3':
+    resolution: {integrity: sha512-1zpnjrXCl0KklQOtMDDXhqQN9ouePkt4NBoAJ/dRjyMqWMkegyIqeZUOf3Xq4yaUPPdY8wmR8cye/D9v1kcrsQ==}
 
   '@types/prop-types@15.7.12':
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}
@@ -332,8 +407,14 @@ packages:
   '@types/react@18.3.3':
     resolution: {integrity: sha512-hti/R0pS0q1/xx+TsI73XIqk26eBsISZ2R0wUijXIngRK9R/e7Xw/cXVxQK7R5JjW+SV4zGcn5hXjudkN/pLIw==}
 
+  '@types/seed-random@2.2.4':
+    resolution: {integrity: sha512-M4wSiHb23w6oRFo69SrjWiYMXocfhRyzX5kuGkAJmLrYJDD//8zmhsY+9t6t87RLYhyIcE4h3feYwqOFdaslHw==}
+
   '@types/stats.js@0.17.3':
     resolution: {integrity: sha512-pXNfAD3KHOdif9EQXZ9deK82HVNaXP5ZIF5RP2QG6OQFNTaY2YIetfrE9t528vEreGQvEPRDDc8muaoYeK0SxQ==}
+
+  '@types/svg-path-contours@2.0.1':
+    resolution: {integrity: sha512-t6+kmFXr/thbIVePpLN9X7pPxceZCX3U6OavgDh7QUZubq4a73qHTCaBoTzvA3JsyE0H2X2M1KeUsi7zxV/hKA==}
 
   '@types/three@0.163.0':
     resolution: {integrity: sha512-uIdDhsXRpQiBUkflBS/i1l3JX14fW6Ot9csed60nfbZNXHDTRsnV2xnTVwXcgbvTiboAR4IW+t+lTL5f1rqIqA==}
@@ -612,6 +693,10 @@ packages:
 
   d3-path@1.0.9:
     resolution: {integrity: sha512-VLaYcn81dtHVTjEHd8B+pbe9yHWpXKZUC87PzoFmsFrJqgFwDe/qxfp5MlfsfM1V5E/iVt0MmEbWQ7FVIXh/bg==}
+
+  d3-path@3.1.0:
+    resolution: {integrity: sha512-p3KP5HCf/bvjBSSKuXid6Zqijx7wIfNW+J/maPs+iwR35at5JCbLUT0LzF1cnjbCHWhqzQTIN2Jpe8pRebIEFQ==}
+    engines: {node: '>=12'}
 
   damerau-levenshtein@1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
@@ -1557,6 +1642,9 @@ packages:
   regl@1.7.0:
     resolution: {integrity: sha512-bEAtp/qrtKucxXSJkD4ebopFZYP0q1+3Vb2WECWv/T8yQEgKxDxJ7ztO285tAMaYZVR6mM1GgI6CCn8FROtL1w==}
 
+  regl@2.1.0:
+    resolution: {integrity: sha512-oWUce/aVoEvW5l2V0LK7O5KJMzUSKeiOwFuJehzpSFd43dO5spP9r+sSUfhKtsky4u6MCqWJaRL+abzExynfTg==}
+
   require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
@@ -2162,7 +2250,13 @@ snapshots:
 
   '@tweenjs/tween.js@23.1.2': {}
 
+  '@types/abs-svg-path@0.1.3': {}
+
   '@types/almost-equal@1.1.3': {}
+
+  '@types/clone@2.1.4': {}
+
+  '@types/d3-path@3.1.0': {}
 
   '@types/defined@1.0.2': {}
 
@@ -2170,11 +2264,15 @@ snapshots:
 
   '@types/json5@0.0.29': {}
 
+  '@types/lineclip@1.1.1': {}
+
   '@types/node@20.14.7':
     dependencies:
       undici-types: 5.26.5
 
   '@types/offscreencanvas@2019.7.3': {}
+
+  '@types/parse-color@1.0.3': {}
 
   '@types/prop-types@15.7.12': {}
 
@@ -2195,7 +2293,11 @@ snapshots:
       '@types/prop-types': 15.7.12
       csstype: 3.1.3
 
+  '@types/seed-random@2.2.4': {}
+
   '@types/stats.js@0.17.3': {}
+
+  '@types/svg-path-contours@2.0.1': {}
 
   '@types/three@0.163.0':
     dependencies:
@@ -2529,6 +2631,8 @@ snapshots:
   csstype@3.1.3: {}
 
   d3-path@1.0.9: {}
+
+  d3-path@3.1.0: {}
 
   damerau-levenshtein@1.0.8: {}
 
@@ -3640,6 +3744,8 @@ snapshots:
       set-function-name: 2.0.2
 
   regl@1.7.0: {}
+
+  regl@2.1.0: {}
 
   require-from-string@2.0.2: {}
 

@@ -216,7 +216,7 @@ function mapRange(
   }
 }
 
-module.exports = {
+const funks = {
   mod: mod,
   fract: fract,
   sign: sign,
@@ -239,3 +239,5 @@ module.exports = {
   expand3D: expandVector(3),
   expand4D: expandVector(4),
 };
+
+export default funks;
