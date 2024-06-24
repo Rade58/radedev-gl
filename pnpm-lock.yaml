@@ -26,6 +26,9 @@ importers:
       canvas-sketch-util:
         specifier: ^1.10.0
         version: 1.10.0
+      canvas-sketch-util-types:
+        specifier: ^0.5.1
+        version: 0.5.1
       clone:
         specifier: ^2.1.2
         version: 2.1.2
@@ -632,6 +635,9 @@ packages:
 
   caniuse-lite@1.0.30001636:
     resolution: {integrity: sha512-bMg2vmr8XBsbL6Lr0UHXy/21m84FTxDLWn2FSqMd5PrlbMxwJlQnC2YWYxVgp66PZE+BBNF2jYQUBKCo1FDeZg==}
+
+  canvas-sketch-util-types@0.5.1:
+    resolution: {integrity: sha512-AEyc+4XEd76cKVr0CH/U4bIDO+SDmW69dq+CNGtUgdmD7A99GepKQEYx6gC0ChryEXXRo148Yxf5WUs/eFoGSA==}
 
   canvas-sketch-util@1.10.0:
     resolution: {integrity: sha512-IiJWEQDBinl6KZVLYcdp79ZJXXKsS1HuDUoWtwWh0NJMVUA6jaM0pxcBRYiaujBXjQFPT91pl8L9iFFmma3+zA==}
@@ -2554,6 +2560,8 @@ snapshots:
       three: 0.165.0
 
   caniuse-lite@1.0.30001636: {}
+
+  canvas-sketch-util-types@0.5.1: {}
 
   canvas-sketch-util@1.10.0:
     dependencies:

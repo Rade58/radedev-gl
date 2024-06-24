@@ -15,6 +15,7 @@
     "almost-equal": "^1.1.0",
     "array-almost-equal": "^1.0.0",
     "canvas-sketch-util": "^1.10.0",
+    "canvas-sketch-util-types": "^0.5.1",
     "clone": "^2.1.2",
     "convert-length": "^1.0.1",
     "d3-path": "^3.1.0",
