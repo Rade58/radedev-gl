@@ -24,6 +24,7 @@
     "float-rgb2hsl": "^1.0.1",
     "lineclip": "^1.1.5",
     "next": "14.2.4",
+    "nice-color-palettes": "^3.0.0",
     "parse-color": "^1.0.0",
     "parse-svg-path": "^0.1.2",
     "primitive-quad": "^2.0.0",

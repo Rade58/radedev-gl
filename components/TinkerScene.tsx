@@ -15,27 +15,37 @@ import {
   Scene,
   SphereGeometry,
   Vector3,
+  DirectionalLight,
+  MeshStandardMaterial,
+  AnimationMixer,
 } from "three";
+
+//
+import palettes from "nice-color-palettes";
 
 import { bg_base } from "@/consts/styles";
 import { useEffect, useState } from "react";
 
-// @ts-expect-error import
-import { math } from "canvas-sketch-util";
+import {
+  value as randVal,
+  setSeed,
+  range,
+  pick,
+} from "canvas-sketch-util/random";
+import { useAnimations } from "@react-three/drei";
 
 export default function TinkerScene() {
   // ------------------------------------------------------
   // ------------------------------------------------------
-  const zoom = 1.6;
+  const zoom = 8;
   // ------------------------------------------------------
   // ------------------------------------------------------
-
-  console.log(math.lerp);
 
   const {
     gl,
     camera: cam,
     scene: sc,
+
     clock,
     viewport: { aspect },
   } = useThree();
@@ -44,7 +54,9 @@ export default function TinkerScene() {
   const scene = sc as unknown as Scene;
   const camera = cam as unknown as /* PerspectiveCamera | */ OrthographicCamera;
 
-  console.log({ aspect });
+  setSeed("purkolar", {});
+
+  // console.log({ aspect });
 
   // console.log({ clock });
 
@@ -56,8 +68,11 @@ export default function TinkerScene() {
   const [bMeshes, setBMeshes] = useState<Mesh[]>([]);
   const [lookAtVector, setLookatVector] = useState<Vector3 | null>(null);
 
+  const pall = pick(palettes);
+
   useEffect(() => {
     gl.setClearColor(bg_base, 1);
+    // gl.setClearColor(pick(pick(palettes)), 1);
 
     const mainVec = new Vector3();
     setLookatVector(mainVec);
@@ -65,10 +80,9 @@ export default function TinkerScene() {
 
     // camera.rotation.z = 6.28;
 
-    const ambientLight = new AmbientLight("#d4a9b6");
-    const pointLight = new PointLight("#8c86d6", 9.6, 13.18);
-    scene.add(ambientLight);
-    scene.add(pointLight);
+    const directLight = new DirectionalLight("white", 2);
+    const ambientLight = new AmbientLight("#351430", 1);
+    const pointLight = new PointLight("#8c86d6", 2.6, 73.18);
     // ---------------------------------------------------
     // ---------------------------------------------------
 
@@ -89,21 +103,40 @@ export default function TinkerScene() {
       roughness: 0.78,
       flatShading: true,
     });
+    const basMat = new MeshBasicMaterial({
+      // color: "blanchedalmond",
+      color: "#c571a5",
+      // color: "hsl(46, 70%, 12%)",
+    });
     // ---------------------------------------------------
 
     // ------ MESHES
     // const sphereMesh = new Mesh(sphereGeo, basicMat);
 
-    Array(20)
+    Array(39)
       .fill(1)
-      .forEach((item, i) => {
-        const boxMesh = new Mesh(boxGeo, phisMat);
+      .forEach((_, __) => {
+        /*  const basMat = new MeshBasicMaterial({
+          color: pick(pall),
+        }); */
+
+        const standMat = new MeshStandardMaterial({
+          color: pick(pall),
+        });
+
+        const boxMesh = new Mesh(boxGeo, /*  phisMat */ standMat);
         setBMeshes((prev) => [...prev, boxMesh]);
         // ---------------------------------------------------
 
-        boxMesh.rotation.x = 2.2;
+        /* boxMesh.rotation.x = 2.2;
         boxMesh.rotation.y = 2;
-        boxMesh.rotation.z = 1;
+        boxMesh.rotation.z = 1; */
+
+        boxMesh.position.set(range(-1, 1), range(-1, 1), range(-1, 1));
+        boxMesh.scale.set(range(-1, 1), range(-1, 1), range(-1, 1));
+
+        boxMesh.position.multiplyScalar(7);
+        boxMesh.scale.multiplyScalar(2);
 
         scene.add(boxMesh);
       });
@@ -120,13 +153,20 @@ export default function TinkerScene() {
     // ---------------------------------------------------
 
     //
-    pointLight.position.set(4, 3, -3).multiplyScalar(0.2);
+    directLight.position.set(6, 4, 9);
+
+    scene.add(directLight);
+    scene.add(ambientLight);
+    scene.add(pointLight);
+
+    //
+    // pointLight.position.set(14, 31, -31).multiplyScalar(3);
   }, []);
 
   // handle resize for ortographic camera
   // useEffect(() => {
   if (camera) {
-    console.log({ camera });
+    // console.log({ camera });
 
     camera.left = -zoom * aspect;
     camera.right = zoom * aspect;
@@ -152,11 +192,12 @@ export default function TinkerScene() {
   useFrame((state, delta) => {
     // console.log({ state });
 
-    bMeshes.forEach((bMesh, i) => {
-      bMesh.rotation.z = state.clock.elapsedTime * ((Math.PI * 10) / 180) - i;
-      // bMesh.rotation.y =
-      // -state.clock.elapsedTime * 0.1 * ((Math.PI * 10) / 180);
-    });
+    state.scene.rotation.y = state.clock.elapsedTime * 10 * (Math.PI / 360);
+    // state.scene.rotation.y = delta * 100;
+
+    /* bMeshes.forEach((bMesh, i) => {
+      bMesh.rotation.z = state.clock.elapsedTime * ((Math.PI * 10) / 180);
+    }); */
   });
   // ------------------------------------------------------------
   // ------------------------------------------------------------
