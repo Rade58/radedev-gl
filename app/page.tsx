@@ -1,6 +1,24 @@
-import Image from "next/image";
+// import Image from "next/image";
+import dynamicLoad from "next/dynamic";
+
+const Scene = dynamicLoad(
+  () => {
+    return import("@/components/Scene");
+  },
+  { ssr: false }
+);
+
+export const dynamic = "force-static";
 
 export default function Home() {
+  return (
+    <main>
+      <Scene />
+    </main>
+  );
+}
+
+/* export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -111,3 +129,4 @@ export default function Home() {
     </main>
   );
 }
+ */
