@@ -182,7 +182,7 @@ export default function TinkerScene() {
     }
 
     camera.updateProjectionMatrix();
-
+    //
     // console.log("updated");
   }
   // }, [aspect, lookAtVector, camera]);
