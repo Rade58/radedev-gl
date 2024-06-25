@@ -74,7 +74,7 @@ export default function TinkerScene() {
   const [bMeshes, setBMeshes] = useState<Mesh[]>([]);
   const [lookAtVector, setLookatVector] = useState<Vector3 | null>(null);
 
-  const { playheadRef, computePlayheadInFrame } = usePlayhead(20, true);
+  const { playheadRef, computePlayheadInFrame } = usePlayhead(40, 5, true);
 
   const pall = pick(palettes);
 
@@ -203,12 +203,12 @@ export default function TinkerScene() {
     // Apply rotation to the mesh
 
     // state.scene.rotation.y = playheadRef.current * Math.PI;
-    state.scene.position.y = playheadRef.current;
+    state.scene.rotation.y = playheadRef.current;
     // state.scene.rotation.y = delta * 100;
 
-    bMeshes.forEach((bMesh, i) => {
+    /* bMeshes.forEach((bMesh, i) => {
       bMesh.rotation.z = state.clock.elapsedTime * ((Math.PI * 10) / 180);
-    });
+    }); */
   });
   // ------------------------------------------------------------
   // ------------------------------------------------------------
