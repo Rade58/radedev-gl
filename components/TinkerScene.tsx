@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 // import { useScroll } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 // import { useEffect } from "react";
@@ -24,7 +25,6 @@ import {
 import palettes from "nice-color-palettes";
 
 import { bg_base } from "@/consts/styles";
-import { useEffect, useState } from "react";
 
 import {
   value as randVal,
@@ -34,10 +34,13 @@ import {
 } from "canvas-sketch-util/random";
 import { useAnimations } from "@react-three/drei";
 
+import { usePlayhead } from "@/hooks/usePlayhead";
+
 export default function TinkerScene() {
   // ------------------------------------------------------
   // ------------------------------------------------------
   const zoom = 8;
+  const duration = 10;
   // ------------------------------------------------------
   // ------------------------------------------------------
 
@@ -56,6 +59,9 @@ export default function TinkerScene() {
 
   setSeed("purkolar", {});
 
+  const [rotationSpeed, setRotationSpeed] = useState(0.02);
+  const [rotationY, setRotationY] = useState(0);
+
   // console.log({ aspect });
 
   // console.log({ clock });
@@ -67,6 +73,8 @@ export default function TinkerScene() {
 
   const [bMeshes, setBMeshes] = useState<Mesh[]>([]);
   const [lookAtVector, setLookatVector] = useState<Vector3 | null>(null);
+
+  const { playheadRef, computePlayheadInFrame } = usePlayhead(20, true);
 
   const pall = pick(palettes);
 
@@ -190,14 +198,17 @@ export default function TinkerScene() {
   // ------------------------------------------------------------
   // ANIMATION FRAME
   useFrame((state, delta) => {
-    // console.log({ state });
+    computePlayheadInFrame(delta, state.clock.elapsedTime);
 
-    state.scene.rotation.y = state.clock.elapsedTime * 10 * (Math.PI / 360);
+    // Apply rotation to the mesh
+
+    // state.scene.rotation.y = playheadRef.current * Math.PI;
+    state.scene.position.y = playheadRef.current;
     // state.scene.rotation.y = delta * 100;
 
-    /* bMeshes.forEach((bMesh, i) => {
+    bMeshes.forEach((bMesh, i) => {
       bMesh.rotation.z = state.clock.elapsedTime * ((Math.PI * 10) / 180);
-    }); */
+    });
   });
   // ------------------------------------------------------------
   // ------------------------------------------------------------
