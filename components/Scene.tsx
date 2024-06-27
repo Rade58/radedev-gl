@@ -12,6 +12,7 @@ import {
 //
 import TinkerScene from "./TinkerScene";
 import ShaderScene from "./ShaderScene";
+import NoiseScene from "./NoiseScene";
 //
 
 export default function Scene() {
@@ -52,7 +53,8 @@ export default function Scene() {
         <OrbitControls />
         {/* <ScrollControls damping={0.5} pages={4}> */}
         {/* <TinkerScene /> */}
-        <ShaderScene />
+        {/* <ShaderScene /> */}
+        <NoiseScene />
         {/* </ScrollControls> */}
       </Suspense>
     </Canvas>

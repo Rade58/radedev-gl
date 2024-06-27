@@ -53,6 +53,12 @@ importers:
       float-rgb2hsl:
         specifier: ^1.0.1
         version: 1.0.1
+      glsl-hsl2rgb:
+        specifier: ^1.1.0
+        version: 1.1.0
+      glsl-noise:
+        specifier: ^0.0.0
+        version: 0.0.0
       glslify:
         specifier: ^7.1.1
         version: 7.1.1
@@ -1283,6 +1289,9 @@ packages:
   globby@11.1.0:
     resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
     engines: {node: '>=10'}
+
+  glsl-hsl2rgb@1.1.0:
+    resolution: {integrity: sha512-dlxkgfTzjQ86DWngdozxRFqCSNWCoH186DmfZpLqt+JhtqdoeuI+/1TMKMULAw1FjFqfbTqAgSNXupNfjNSWQw==}
 
   glsl-inject-defines@1.0.3:
     resolution: {integrity: sha512-W49jIhuDtF6w+7wCMcClk27a2hq8znvHtlGnrYkSWEr8tHe9eA2dcnohlcAmxLYBSpSSdzOkRdyPTrx9fw49+A==}
@@ -3949,6 +3958,8 @@ snapshots:
       ignore: 5.3.1
       merge2: 1.4.1
       slash: 3.0.0
+
+  glsl-hsl2rgb@1.1.0: {}
 
   glsl-inject-defines@1.0.3:
     dependencies:

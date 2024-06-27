@@ -24,6 +24,8 @@
     "eases": "^1.0.8",
     "float-hsl2rgb": "^1.0.2",
     "float-rgb2hsl": "^1.0.1",
+    "glsl-hsl2rgb": "^1.1.0",
+    "glsl-noise": "^0.0.0",
     "glslify": "^7.1.1",
     "glslify-loader": "^2.0.0",
     "lineclip": "^1.1.5",
