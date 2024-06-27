@@ -19,22 +19,22 @@ export default function Scene() {
 
   return (
     <Canvas
-      orthographic
+      // set to true if you want ortographic camera
+      orthographic={false}
       camera={{
-        // ---------------------------------------
-        // perspective camera
-        // position: [0, 0, -4],
-        // isPerspectiveCamera: true,
-        // fov: 50,
-        // near: 0.1,
-        // far: 100,
         // ---------------------------------------
         // ---------------------------------------
         // ortographic camera
-        isOrthographicCamera: true,
-        near: -100,
+        // isOrthographicCamera: true,
+        // near: -100,
+        // far: 100,
+        // ---------------------------------------
+        // perspective camera
+        position: [0, 0, 4],
+        isPerspectiveCamera: true,
+        fov: 20,
+        near: 0.1,
         far: 100,
-
         // ---------------------------------------
         // aspect: 1, // don't adjust this, it will mess up aspect ration
         /* lookAt: (ve3) => {
@@ -49,7 +49,7 @@ export default function Scene() {
       className="canvas-holder"
     >
       <Suspense fallback={<Loader />}>
-        {/* <OrbitControls /> */}
+        <OrbitControls />
         {/* <ScrollControls damping={0.5} pages={4}> */}
         {/* <TinkerScene /> */}
         <ShaderScene />

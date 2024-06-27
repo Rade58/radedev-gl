@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import { useScroll } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 // import { useEffect } from "react";
@@ -16,12 +16,16 @@ import {
   Vector3,
   DirectionalLight,
   MeshStandardMaterial,
+  PerspectiveCamera,
+  ShaderMaterial,
 } from "three";
 
 //
 import palettes from "nice-color-palettes";
 
-import { bg_base } from "@/consts/styles";
+import { backInOut, elasticIn, cubicOut, expoInOut } from "eases";
+
+import bease from "bezier-easing";
 
 import {
   value as randVal,
@@ -29,20 +33,24 @@ import {
   range,
   pick,
 } from "canvas-sketch-util/random";
-import { useAnimations } from "@react-three/drei";
+import { shaderMaterial, useAnimations } from "@react-three/drei";
 
 import { usePlayheadBackForth } from "@/hooks/usePlayheadBackForth";
 
-import { backInOut, elasticIn, cubicOut, expoInOut } from "eases";
-import bease from "bezier-easing";
+import { bg_base } from "@/consts/styles";
 
 import { usePlayhead } from "@/hooks/usePlayhead";
+
+// import fragmentShader from "@/shaders/first/first.frag";
+// import vertexShader from "@/shaders/first/first.vert";
+//
+import fragmentShader from "@/shaders/lesson_1/less1.frag";
+import vertexShader from "@/shaders/default.vert";
 
 export default function ShaderScene() {
   // ------------------------------------------------------
   // ------------------------------------------------------
   const zoom = 1;
-  const duration = 10;
   // ------------------------------------------------------
   // ------------------------------------------------------
 
@@ -56,7 +64,9 @@ export default function ShaderScene() {
 
   // ------ CAMMERA, SCENE, LIGHTS, CONTROL
   const scene = sc as unknown as Scene;
-  const camera = cam as unknown as /* PerspectiveCamera | */ OrthographicCamera;
+  const camera = cam as unknown as PerspectiveCamera; /* OrthographicCamera */
+
+  const shaderRef = useRef<ShaderMaterial | null>(null);
 
   setSeed("postaorio", {});
 
@@ -69,7 +79,6 @@ export default function ShaderScene() {
   // const { offset } = useScroll();
   // -----------------------------------------------------------
 
-  const [bMeshes, setBMeshes] = useState<Mesh[]>([]);
   const [lookAtVector, setLookatVector] = useState<Vector3 | null>(null);
 
   const { playheadRef, computePlayheadInFrame } = usePlayhead(20, 2, true);
@@ -83,8 +92,6 @@ export default function ShaderScene() {
     const mainVec = new Vector3();
     setLookatVector(mainVec);
     camera.lookAt(mainVec);
-
-    // camera.rotation.z = 6.28;
 
     const directLight = new DirectionalLight("white", 2);
     const ambientLight = new AmbientLight("#351430", 1);
@@ -102,33 +109,36 @@ export default function ShaderScene() {
       color: "crimson",
       wireframe: true,
     }); */
-    const phisMat = new MeshPhysicalMaterial({
+    /* const phisMat = new MeshPhysicalMaterial({
       // color: "blanchedalmond",
       color: "#c571a5",
-      // color: "hsl(46, 70%, 12%)",
       roughness: 0.78,
       flatShading: true,
-    });
-    const basMat = new MeshBasicMaterial({
-      // color: "blanchedalmond",
+    }); */
+    /* const basMat = new MeshBasicMaterial({
       color: "#c571a5",
-      // color: "hsl(46, 70%, 12%)",
-    });
-    // ---------------------------------------------------
-    // ---------------------------------------------------
 
-    // ------ MESHES
-    // const sphereMesh = new Mesh(sphereGeo, basicMat);
+    }); */
+    // ---------------------------------------------------
+    // ---------------------------------------------------
 
     const standMat = new MeshStandardMaterial({
       color: pick(pall),
     });
 
-    const boxMesh = new Mesh(boxGeo, /*  phisMat */ standMat);
+    const shaderMat = new ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+      },
+      fragmentShader,
+      vertexShader,
+    });
+
+    shaderRef.current = shaderMat;
+
+    const boxMesh = new Mesh(boxGeo, shaderMat /*  phisMat */ /* standMat */);
 
     scene.add(boxMesh);
-
-    //
 
     directLight.position.set(6, 4, 9);
 
@@ -142,8 +152,8 @@ export default function ShaderScene() {
 
   // handle resize for ortographic camera
   // useEffect(() => {
-  if (camera) {
-    // console.log({ camera });
+  if (camera instanceof OrthographicCamera) {
+    console.log({ camera });
 
     camera.left = -zoom * aspect;
     camera.right = zoom * aspect;
@@ -170,6 +180,9 @@ export default function ShaderScene() {
     //
     //
     //
+    if (shaderRef.current) {
+      shaderRef.current.uniforms.time.value = time;
+    }
   });
 
   return null;
