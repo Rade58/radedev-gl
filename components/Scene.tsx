@@ -11,6 +11,7 @@ import {
 
 //
 import TinkerScene from "./TinkerScene";
+import ShaderScene from "./ShaderScene";
 //
 
 export default function Scene() {
@@ -50,7 +51,8 @@ export default function Scene() {
       <Suspense fallback={<Loader />}>
         {/* <OrbitControls /> */}
         {/* <ScrollControls damping={0.5} pages={4}> */}
-        <TinkerScene />
+        {/* <TinkerScene /> */}
+        <ShaderScene />
         {/* </ScrollControls> */}
       </Suspense>
     </Canvas>

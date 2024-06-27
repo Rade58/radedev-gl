@@ -11,14 +11,11 @@ import {
   MeshBasicMaterial,
   MeshPhysicalMaterial,
   OrthographicCamera,
-  PerspectiveCamera,
   PointLight,
   Scene,
-  SphereGeometry,
   Vector3,
   DirectionalLight,
   MeshStandardMaterial,
-  AnimationMixer,
 } from "three";
 
 //
@@ -41,10 +38,10 @@ import bease from "bezier-easing";
 
 import { usePlayhead } from "@/hooks/usePlayhead";
 
-export default function TinkerScene() {
+export default function ShaderScene() {
   // ------------------------------------------------------
   // ------------------------------------------------------
-  const zoom = 8;
+  const zoom = 1;
   const duration = 10;
   // ------------------------------------------------------
   // ------------------------------------------------------
@@ -54,7 +51,6 @@ export default function TinkerScene() {
     camera: cam,
     scene: sc,
 
-    clock,
     viewport: { aspect },
   } = useThree();
 
@@ -62,10 +58,7 @@ export default function TinkerScene() {
   const scene = sc as unknown as Scene;
   const camera = cam as unknown as /* PerspectiveCamera | */ OrthographicCamera;
 
-  setSeed("purkolar", {});
-
-  const [rotationSpeed, setRotationSpeed] = useState(0.02);
-  const [rotationY, setRotationY] = useState(0);
+  setSeed("postaorio", {});
 
   // console.log({ aspect });
 
@@ -78,13 +71,6 @@ export default function TinkerScene() {
 
   const [bMeshes, setBMeshes] = useState<Mesh[]>([]);
   const [lookAtVector, setLookatVector] = useState<Vector3 | null>(null);
-
-  const { playheadBackForthRef, computePlayheadBackForthInFrame } =
-    usePlayheadBackForth(
-      26,
-      5
-      // true
-    );
 
   const { playheadRef, computePlayheadInFrame } = usePlayhead(20, 2, true);
 
@@ -129,50 +115,21 @@ export default function TinkerScene() {
       // color: "hsl(46, 70%, 12%)",
     });
     // ---------------------------------------------------
+    // ---------------------------------------------------
 
     // ------ MESHES
     // const sphereMesh = new Mesh(sphereGeo, basicMat);
 
-    Array(39)
-      .fill(1)
-      .forEach((_, __) => {
-        /*  const basMat = new MeshBasicMaterial({
-          color: pick(pall),
-        }); */
+    const standMat = new MeshStandardMaterial({
+      color: pick(pall),
+    });
 
-        const standMat = new MeshStandardMaterial({
-          color: pick(pall),
-        });
+    const boxMesh = new Mesh(boxGeo, /*  phisMat */ standMat);
 
-        const boxMesh = new Mesh(boxGeo, /*  phisMat */ standMat);
-        setBMeshes((prev) => [...prev, boxMesh]);
-        // ---------------------------------------------------
-
-        /* boxMesh.rotation.x = 2.2;
-        boxMesh.rotation.y = 2;
-        boxMesh.rotation.z = 1; */
-
-        boxMesh.position.set(range(-1, 1), range(-1, 1), range(-1, 1));
-        boxMesh.scale.set(range(-1, 1), range(-1, 1), range(-1, 1));
-
-        boxMesh.position.multiplyScalar(7);
-        boxMesh.scale.multiplyScalar(2);
-
-        scene.add(boxMesh);
-      });
+    scene.add(boxMesh);
 
     //
 
-    // ---------------------------------------------------------
-    // ---------------------------------------------------------
-    // ---------------------------------------------------------
-
-    // scene.add(sphereMesh);
-    // ---------------------------------------------------
-    // ---------------------------------------------------
-    // ---------------------------------------------------
-
-    //
     directLight.position.set(6, 4, 9);
 
     scene.add(directLight);
@@ -205,41 +162,15 @@ export default function TinkerScene() {
     //
     // console.log("updated");
   }
-  // }, [aspect, lookAtVector, camera]);
 
   // ------------------------------------------------------------
   // ANIMATION FRAME
   useFrame(({ scene: sc, clock: { elapsedTime: time } }, delta) => {
-    // computePlayheadBackForthInFrame(delta, state.clock.elapsedTime);
-
-    computePlayheadInFrame(delta);
-
-    // Apply rotation to the mesh
-
-    // state.scene.rotation.y = playheadRef.current * Math.PI;
-    // state.scene.rotation.y = playheadRef.current;
-
-    const t = Math.sin((Math.PI / 2) * 2 * playheadRef.current) * 12;
-
-    // cubic-bezier(.18,.85,.85,.28)
-
-    // state.scene.rotation.x = backInOut(playheadRef.current) * t;
-    // sc.rotation.x = backInOut(t * 0.1);
-    // sc.rotation.y = elasticIn(t * 0.5);
-    // sc.rotation.y = cubicOut(t * 0.5);
-    // sc.rotation.y = backInOut(playheadRef.current);
-    sc.rotation.y = bease(0.5, 0.21, 0.52, 0.74)(t * 0.6);
-    /* state.scene.rotation.y =
-      Math.sin(state.clock.elapsedTime * 0.4 * Math.PI) * 2.4; */
-    // state.scene.rotation.y = 0.1 * state.clock.elapsedTime * 2 * Math.PI;
-    // state.scene.rotation.y = delta * 100;
-
-    /* bMeshes.forEach((bMesh, i) => {
-      bMesh.rotation.z = state.clock.elapsedTime * ((Math.PI * 10) / 180);
-    }); */
+    //
+    //
+    //
+    //
   });
-  // ------------------------------------------------------------
-  // ------------------------------------------------------------
 
   return null;
 }
