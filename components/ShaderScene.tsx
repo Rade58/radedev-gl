@@ -129,6 +129,7 @@ export default function ShaderScene() {
     const shaderMat = new ShaderMaterial({
       uniforms: {
         time: { value: 0 },
+        aspect: { value: 1 / 2 },
       },
       fragmentShader,
       vertexShader,
@@ -175,15 +176,21 @@ export default function ShaderScene() {
 
   // ------------------------------------------------------------
   // ANIMATION FRAME
-  useFrame(({ scene: sc, clock: { elapsedTime: time } }, delta) => {
-    //
-    //
-    //
-    //
-    if (shaderRef.current) {
-      shaderRef.current.uniforms.time.value = time;
+  useFrame(
+    (
+      { viewport: { aspect }, scene: sc, clock: { elapsedTime: time } },
+      delta
+    ) => {
+      //
+      //
+      //
+      //
+      if (shaderRef.current) {
+        shaderRef.current.uniforms.time.value = time;
+        shaderRef.current.uniforms.aspect.value = aspect;
+      }
     }
-  });
+  );
 
   return null;
 }
