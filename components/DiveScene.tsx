@@ -131,6 +131,10 @@ export default function DiveScene() {
 
     if (!colorRef.current) {
       colorRef.current = new Color("crimson");
+
+      colorRef.current.r = 1;
+      colorRef.current.g = 0.1;
+      colorRef.current.b = 0.4;
     }
 
     if (meSeMatRef.current) {
@@ -312,12 +316,14 @@ export default function DiveScene() {
         // @ts-expect-error ref
         ref={boxMeshRef2}
       >
-        <boxGeometry args={[2, 2, 1]} />
-        <meshStandardMaterial
+        <icosahedronGeometry args={[1, 0]} />
+        {/* <meshStandardMaterial
           // @ts-expect-error ref
           ref={meSeMatRef}
           // color={pick(pall)}
-        />
+        /> */}
+
+        <meshPhysicalMaterial color={pick(pall)} roughness={0.78} flatShading />
       </mesh>
     </>
   );
