@@ -14,6 +14,7 @@ import TinkerScene from "./TinkerScene";
 import ShaderScene from "./ShaderScene";
 import NoiseScene from "./NoiseScene";
 import DiveScene from "./DiveScene";
+import PracticeOneScene from "./PracticeOneScene";
 //
 
 export default function Scene() {
@@ -23,23 +24,26 @@ export default function Scene() {
     <Canvas
       // set to true if you want ortographic camera
       // ------ ortographic camera ------
-      orthographic={true}
+      // orthographic={true}
       camera={{
         // ---------------------------------------
         // ---------------------------------------
         // ------ ortographic camera------
-        isOrthographicCamera: true,
-        near: -100,
-        far: 100,
-        // ---------------------------------------
-        // ------ perspective camera ------
-        // position: [0, 0, 4],
-        // isPerspectiveCamera: true,
-        // fov: 20,
-        // near: 0.1,
+        // isOrthographicCamera: true,
+        // near: -100,
         // far: 100,
         // ---------------------------------------
-        // aspect: 1, // don't adjust this, it will mess up aspect ration
+        // ------ perspective camera ------
+        // isPerspectiveCamera: true,
+        fov: 62,
+        // near: 0.1,
+        near: 0.4,
+        far: 100,
+        position: [0, 0, -4],
+        // ---------------------------------------
+        // aspect: 1, // don't adjust this, it will mess up aspect ratio
+        // don't set it especially for ortographic camera since
+        // we are doing it already
         /* lookAt: (ve3) => {
           console.log({ ve3 });
         }, */
@@ -52,12 +56,13 @@ export default function Scene() {
       className="canvas-holder"
     >
       <Suspense fallback={<Loader />}>
-        {/* <OrbitControls /> */}
+        <OrbitControls />
         {/* <ScrollControls damping={0.5} pages={4}> */}
         {/* <TinkerScene /> */}
         {/* <ShaderScene /> */}
         {/* <NoiseScene /> */}
-        <DiveScene />
+        {/* <DiveScene /> */}
+        <PracticeOneScene />
         {/* </ScrollControls> */}
       </Suspense>
     </Canvas>

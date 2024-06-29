@@ -298,7 +298,7 @@ export default function DiveScene() {
         <pointLight
           color={"hotpink"}
           intensity={4}
-          distance={400}
+          distance={100}
           position={[1, 4, 1]}
           // @ts-expect-error ref
           ref={pointLightRef}
@@ -322,7 +322,6 @@ export default function DiveScene() {
           ref={meSeMatRef}
           // color={pick(pall)}
         /> */}
-
         <meshPhysicalMaterial color={pick(pall)} roughness={0.78} flatShading />
       </mesh>
     </>
