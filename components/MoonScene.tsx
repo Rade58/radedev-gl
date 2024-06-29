@@ -22,6 +22,9 @@ import {
   DirectionalLightHelper,
   PointLightHelper,
   Color,
+  Texture,
+  TextureLoader,
+  Group,
 } from "three";
 
 //
@@ -47,10 +50,17 @@ import { usePlayhead } from "@/hooks/usePlayhead";
  *
  * @description firts practice Scene
  */
-export default function PracticeOneScene() {
+export default function MoonScene() {
+  const moonBasMatRef = useRef<MeshBasicMaterial | null>(null);
+  const earthBasMatRef = useRef<MeshBasicMaterial | null>(null);
+  const moonRef = useRef<Mesh | null>(null);
+  const earthRef = useRef<Mesh | null>(null);
+  const moonGroup = useRef<Group | null>(null);
+  // ------------------------------------------------------
+  // ------------------------------------------------------
   const zoom = 4;
   const pall = pick(palettes);
-  setSeed("gamareo", {});
+  setSeed("moonsceen", {});
   // ------------------------------------------------------
   // ------------------------------------------------------
   // ------------------------------------------------------
@@ -86,18 +96,29 @@ export default function PracticeOneScene() {
   //  SET UP SCENE
   useEffect(() => {
     // gl.setClearColor(bg_base, 1);
-    gl.setClearColor(bg_base, 1);
+    gl.setClearColor("#000", 1);
 
     //
     camera.lookAt(new Vector3());
 
-    camera;
-  }, []);
+    // ---------------------------------------------------
+
+    if (moonBasMatRef.current && earthBasMatRef.current) {
+      const textureLoder = new TextureLoader();
+      moonBasMatRef.current.map = textureLoder.load("/moon.jpg");
+      earthBasMatRef.current.map = textureLoder.load("/earth.jpg");
+    }
+
+    if (moonRef.current) {
+      moonRef.current.position.set(1.5, 0.5, 0);
+      moonRef.current.scale.setScalar(0.28);
+    }
+  }, [moonBasMatRef, moonRef, earthRef, earthBasMatRef, moonGroup]);
 
   // handle resize for ortographic camera
   // useEffect(() => {
   if (camera instanceof OrthographicCamera) {
-    // console.log({ camera });
+    console.log({ camera });
 
     camera.left = -zoom * aspect;
     camera.right = zoom * aspect;
@@ -125,16 +146,47 @@ export default function PracticeOneScene() {
       delta
     ) => {
       //
+
+      if (earthRef.current) {
+        earthRef.current.rotation.y += delta * 0.18;
+      }
+      if (moonRef.current) {
+        moonRef.current.rotation.y += delta * 0.14;
+      }
+      if (moonGroup.current) {
+        moonGroup.current.rotation.y = time * 0.09;
+      }
     }
   );
 
   return (
     <>
       <axesHelper />
-      <mesh>
-        <icosahedronGeometry args={[2, 0]} />
-        <meshNormalMaterial flatShading />
+      <mesh
+        // @ts-expect-error ref
+        ref={earthRef}
+      >
+        <sphereGeometry args={[1, 32, 16]} />
+        <meshBasicMaterial
+          // @ts-expect-error ref
+          ref={earthBasMatRef}
+        />
       </mesh>
+      <group
+        // @ts-expect-error ref
+        ref={moonGroup}
+      >
+        <mesh
+          // @ts-expect-error ref
+          ref={moonRef}
+        >
+          <sphereGeometry args={[1, 32, 16]} />
+          <meshBasicMaterial
+            // @ts-expect-error ref
+            ref={moonBasMatRef}
+          />
+        </mesh>
+      </group>
     </>
   );
 }

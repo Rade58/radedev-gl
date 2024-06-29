@@ -15,6 +15,7 @@ import ShaderScene from "./ShaderScene";
 import NoiseScene from "./NoiseScene";
 import DiveScene from "./DiveScene";
 import PracticeOneScene from "./PracticeOneScene";
+import MoonScene from "./MoonScene";
 //
 
 export default function Scene() {
@@ -39,7 +40,7 @@ export default function Scene() {
         // near: 0.1,
         near: 0.4,
         far: 100,
-        position: [0, 0, -4],
+        position: [2, 2, -6],
         // ---------------------------------------
         // aspect: 1, // don't adjust this, it will mess up aspect ratio
         // don't set it especially for ortographic camera since
@@ -62,7 +63,8 @@ export default function Scene() {
         {/* <ShaderScene /> */}
         {/* <NoiseScene /> */}
         {/* <DiveScene /> */}
-        <PracticeOneScene />
+        {/* <PracticeOneScene /> */}
+        <MoonScene />
         {/* </ScrollControls> */}
       </Suspense>
     </Canvas>
