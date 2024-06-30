@@ -25,6 +25,8 @@ import {
   Texture,
   TextureLoader,
   Group,
+  RepeatWrapping,
+  Vector2,
 } from "three";
 
 //
@@ -50,19 +52,18 @@ import { usePlayhead } from "@/hooks/usePlayhead";
  *
  * @description
  */
-export default function MoonScene() {
-  const moonBasMatRef = useRef<MeshBasicMaterial | null>(null);
-  const earthBasMatRef = useRef<MeshBasicMaterial | null>(null);
-  const moonRef = useRef<Mesh | null>(null);
-  const earthRef = useRef<Mesh | null>(null);
-  const moonGroup = useRef<Group | null>(null);
-
+export default function BrickScene() {
+  // ------------------------------------------------------
+  // ------------------------------------------------------
+  const meshRef = useRef<Mesh | null>(null);
+  const stanMatRef = useRef<MeshStandardMaterial | null>(null);
   const pointLightRef = useRef<PointLight | null>(null);
+  const groupRef = useRef<Group | null>(null);
   // ------------------------------------------------------
   // ------------------------------------------------------
   const zoom = 4;
   const pall = pick(palettes);
-  setSeed("moonsceen", {});
+  setSeed("bricksceene", {});
   // ------------------------------------------------------
   // ------------------------------------------------------
   // ------------------------------------------------------
@@ -93,7 +94,6 @@ export default function MoonScene() {
   // const { offset } = useScroll();
   // -----------------------------------------------------------
   //  CAMERA LOOK AT VECTOR
-  const [lookAtVector, setLookatVector] = useState<Vector3 | null>(null);
 
   //  SET UP SCENE
   useEffect(() => {
@@ -102,37 +102,43 @@ export default function MoonScene() {
 
     //
     camera.lookAt(new Vector3());
+    //
 
-    // ---------------------------------------------------
+    if (stanMatRef.current) {
+      const textureLoader = new TextureLoader();
+      const texture = textureLoader.load("/brick-diffuse.jpg");
 
-    if (moonBasMatRef.current && earthBasMatRef.current) {
-      const textureLoder = new TextureLoader();
-      moonBasMatRef.current.map = textureLoder.load("/moon.jpg");
-      earthBasMatRef.current.map = textureLoder.load("/earth.jpg");
+      stanMatRef.current.map = texture;
+      texture.wrapS = texture.wrapT = RepeatWrapping;
+
+      texture.repeat.set(3, 2).multiplyScalar(1.2);
+
+      const normalTexture = textureLoader.load("/brick-normal.jpg");
+      stanMatRef.current.normalMap = normalTexture;
+
+      normalTexture.wrapS = normalTexture.wrapT = RepeatWrapping;
+
+      normalTexture.repeat.copy(texture.repeat);
+
+      // stanMatRef.current.normalScale = new Vector2(1, -4);
     }
 
-    if (moonRef.current) {
-      moonRef.current.position.set(1.5, 0.5, 0);
-      moonRef.current.scale.setScalar(0.28);
-    }
-    // ---------------------------------------------------
     if (pointLightRef.current) {
-      pointLightRef.current.position.set(3, 3, 3);
+      pointLightRef.current.position.set(0, 2, -4);
+      const plhelp = new PointLightHelper(pointLightRef.current);
 
-      const pointLightHelper = new PointLightHelper(pointLightRef.current);
+      scene.add(plhelp);
+    }
 
-      scene.add(pointLightHelper);
+    if (meshRef.current) {
+      meshRef.current.rotation.z = 2;
+      meshRef.current.scale.setScalar(1.1);
     }
 
     // ---------------------------------------------------
-  }, [
-    moonBasMatRef,
-    moonRef,
-    earthRef,
-    earthBasMatRef,
-    moonGroup,
-    pointLightRef,
-  ]);
+
+    // ---------------------------------------------------
+  }, [stanMatRef, pointLightRef, meshRef]);
 
   // handle resize for ortographic camera
   // useEffect(() => {
@@ -165,65 +171,44 @@ export default function MoonScene() {
       delta
     ) => {
       //
+      /*  if (pointLightRef.current) {
+        pointLightRef.current.position.z =
+          Math.sin(time * 0.04 * Math.PI * 2) * 6;
+      } */
 
-      if (earthRef.current) {
-        earthRef.current.rotation.y += delta * 0.18;
-      }
-      if (moonRef.current) {
-        moonRef.current.rotation.y += delta * 0.14;
-      }
-      if (moonGroup.current) {
-        moonGroup.current.rotation.y = time * 0.09;
+      if (groupRef.current) {
+        groupRef.current.rotation.y = time * 0.7;
       }
     }
   );
 
   return (
     <>
-      {/* <gridHelper args={[5, 6]} /> */}
       {/* <axesHelper /> */}
-      <pointLight
-        // @ts-expect-error ref
-        ref={pointLightRef}
-        color={"white"}
-        intensity={7}
-      />
-      <mesh
-        // @ts-expect-error ref
-        ref={earthRef}
-      >
-        <sphereGeometry args={[1, 32, 16]} />
-        <meshStandardMaterial
-          // @ts-expect-error ref
-          ref={earthBasMatRef}
-          metalness={0}
-          roughness={1}
-        />
-      </mesh>
       <group
         // @ts-expect-error ref
-        ref={moonGroup}
+        ref={groupRef}
       >
-        {/* <pointLight
+        <pointLight
           // @ts-expect-error ref
           ref={pointLightRef}
-          color={"white"}
-          intensity={7}
-        /> */}
-
-        <mesh
-          // @ts-expect-error ref
-          ref={moonRef}
-        >
-          <sphereGeometry args={[1, 32, 16]} />
-          <meshStandardMaterial
-            // @ts-expect-error ref
-            ref={moonBasMatRef}
-            metalness={0}
-            roughness={1}
-          />
-        </mesh>
+          color="white"
+          intensity={4}
+        />
       </group>
+      <mesh
+        // @ts-expect-error ref
+        ref={meshRef}
+      >
+        <torusGeometry args={[0.8, 0.4, 34, 64]} />
+        <meshStandardMaterial
+          // @ts-expect-error ref
+          ref={stanMatRef}
+          flatShading
+          roughness={0.75}
+          metalness={0.4}
+        />
+      </mesh>
     </>
   );
 }

@@ -16,6 +16,7 @@ import NoiseScene from "./NoiseScene";
 import DiveScene from "./DiveScene";
 import PracticeOneScene from "./PracticeOneScene";
 import MoonScene from "./MoonScene";
+import BrickScene from "./BrickScene";
 //
 
 export default function Scene() {
@@ -40,7 +41,7 @@ export default function Scene() {
         // near: 0.1,
         near: 0.01,
         far: 100,
-        position: [2, 2, -6],
+        position: [1, 0, 3],
         // ---------------------------------------
         // aspect: 1, // don't adjust this in any case,
         // it will mess up aspect ratio, don't set it especially
@@ -66,7 +67,8 @@ export default function Scene() {
         {/* <NoiseScene /> */}
         {/* <DiveScene /> */}
         {/* <PracticeOneScene /> */}
-        <MoonScene />
+        {/* <MoonScene /> */}
+        <BrickScene />
         {/* </ScrollControls> */}
       </Suspense>
     </Canvas>
