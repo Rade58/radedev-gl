@@ -136,6 +136,7 @@ export default function CustomGeometryScene() {
 
       buffGeo.setIndex(new BufferAttribute(indices, 1));
 
+      // for normal material to get other colors than black
       buffGeo.computeVertexNormals();
 
       meshRef.current.geometry = buffGeo;
