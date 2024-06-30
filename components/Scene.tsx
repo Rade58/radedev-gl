@@ -36,15 +36,17 @@ export default function Scene() {
         // ---------------------------------------
         // ------ perspective camera ------
         // isPerspectiveCamera: true,
-        fov: 62,
+        fov: 50,
         // near: 0.1,
-        near: 0.4,
+        near: 0.01,
         far: 100,
         position: [2, 2, -6],
         // ---------------------------------------
-        // aspect: 1, // don't adjust this, it will mess up aspect ratio
-        // don't set it especially for ortographic camera since
-        // we are doing it already
+        // aspect: 1, // don't adjust this in any case,
+        // it will mess up aspect ratio, don't set it especially
+        // for ortographic camera since
+        // we are doing it already in scene
+
         /* lookAt: (ve3) => {
           console.log({ ve3 });
         }, */

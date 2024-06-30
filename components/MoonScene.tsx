@@ -56,6 +56,8 @@ export default function MoonScene() {
   const moonRef = useRef<Mesh | null>(null);
   const earthRef = useRef<Mesh | null>(null);
   const moonGroup = useRef<Group | null>(null);
+
+  const pointLightRef = useRef<PointLight | null>(null);
   // ------------------------------------------------------
   // ------------------------------------------------------
   const zoom = 4;
@@ -113,7 +115,24 @@ export default function MoonScene() {
       moonRef.current.position.set(1.5, 0.5, 0);
       moonRef.current.scale.setScalar(0.28);
     }
-  }, [moonBasMatRef, moonRef, earthRef, earthBasMatRef, moonGroup]);
+    // ---------------------------------------------------
+    if (pointLightRef.current) {
+      pointLightRef.current.position.set(3, 3, 3);
+
+      const pointLightHelper = new PointLightHelper(pointLightRef.current);
+
+      scene.add(pointLightHelper);
+    }
+
+    // ---------------------------------------------------
+  }, [
+    moonBasMatRef,
+    moonRef,
+    earthRef,
+    earthBasMatRef,
+    moonGroup,
+    pointLightRef,
+  ]);
 
   // handle resize for ortographic camera
   // useEffect(() => {
@@ -161,15 +180,23 @@ export default function MoonScene() {
 
   return (
     <>
-      <axesHelper />
+      {/* <axesHelper /> */}
+      <pointLight
+        // @ts-expect-error ref
+        ref={pointLightRef}
+        color={"white"}
+        intensity={6}
+      />
       <mesh
         // @ts-expect-error ref
         ref={earthRef}
       >
         <sphereGeometry args={[1, 32, 16]} />
-        <meshBasicMaterial
+        <meshStandardMaterial
           // @ts-expect-error ref
           ref={earthBasMatRef}
+          metalness={0}
+          roughness={1}
         />
       </mesh>
       <group
@@ -181,9 +208,11 @@ export default function MoonScene() {
           ref={moonRef}
         >
           <sphereGeometry args={[1, 32, 16]} />
-          <meshBasicMaterial
+          <meshStandardMaterial
             // @ts-expect-error ref
             ref={moonBasMatRef}
+            metalness={0}
+            roughness={1}
           />
         </mesh>
       </group>
