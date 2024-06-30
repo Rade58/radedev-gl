@@ -125,6 +125,7 @@ export default function CustomGeometryScene() {
       ]);
 
       // not going to use it
+      // using vertices to "build" indices from them
       const indices = new Uint16Array([
         // indice one
         0, 1, 2,
