@@ -17,6 +17,7 @@ import DiveScene from "./DiveScene";
 import PracticeOneScene from "./PracticeOneScene";
 import MoonScene from "./MoonScene";
 import BrickScene from "./BrickScene";
+import CustomGeometryScene from "./CustomGeometryScene";
 //
 
 export default function Scene() {
@@ -37,11 +38,11 @@ export default function Scene() {
         // ---------------------------------------
         // ------ perspective camera ------
         // isPerspectiveCamera: true,
-        fov: 50,
+        fov: 45,
         // near: 0.1,
         near: 0.01,
         far: 100,
-        position: [1, 0, 3],
+        position: [2, 2, -4],
         // ---------------------------------------
         // aspect: 1, // don't adjust this in any case,
         // it will mess up aspect ratio, don't set it especially
@@ -60,7 +61,7 @@ export default function Scene() {
       className="canvas-holder"
     >
       <Suspense fallback={<Loader />}>
-        <OrbitControls />
+        <OrbitControls enableZoom={false} />
         {/* <ScrollControls damping={0.5} pages={4}> */}
         {/* <TinkerScene /> */}
         {/* <ShaderScene /> */}
@@ -68,7 +69,8 @@ export default function Scene() {
         {/* <DiveScene /> */}
         {/* <PracticeOneScene /> */}
         {/* <MoonScene /> */}
-        <BrickScene />
+        {/* <BrickScene /> */}
+        <CustomGeometryScene />
         {/* </ScrollControls> */}
       </Suspense>
     </Canvas>
