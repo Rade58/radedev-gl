@@ -114,13 +114,13 @@ export default function CustomGeometryScene() {
     if (meshRef.current) {
       const buffGeo = new BufferGeometry();
       const vertices = new Float32Array([
-        //  vert one
+        //  vert 0
         0.5, 0.0, 0.0,
-        //  vert two
+        //  vert 1
         0.0, 0.5, 0.0,
-        //  vert thre
+        //  vert 2
         0.0, 0.0, 0.0,
-        //  vert four
+        //  vert 3
         0.0, 0.0, 0.9,
       ]);
 
@@ -130,6 +130,8 @@ export default function CustomGeometryScene() {
         0, 1, 2,
         // indice two
         3, 1, 2,
+        // indice three
+        0, 3, 2,
       ]);
 
       buffGeo.setAttribute("position", new BufferAttribute(vertices, 3));
