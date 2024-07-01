@@ -17,7 +17,8 @@ import DiveScene from "./DiveScene";
 import PracticeOneScene from "./PracticeOneScene";
 import MoonScene from "./MoonScene";
 import BrickScene from "./BrickScene";
-import CustomGeometryScene from "./CustomGeometryScene";
+import BuffGeometryScene from "./BufferGeometryScene";
+import ShaderSecondPartScene from "./ShadersSecondPartScene";
 //
 
 export default function Scene() {
@@ -61,7 +62,9 @@ export default function Scene() {
       className="canvas-holder"
     >
       <Suspense fallback={<Loader />}>
-        <OrbitControls enableZoom={false} />
+        <OrbitControls
+        // enableZoom={false}
+        />
         {/* <ScrollControls damping={0.5} pages={4}> */}
         {/* <TinkerScene /> */}
         {/* <ShaderScene /> */}
@@ -70,7 +73,8 @@ export default function Scene() {
         {/* <PracticeOneScene /> */}
         {/* <MoonScene /> */}
         {/* <BrickScene /> */}
-        <CustomGeometryScene />
+        {/* <BuffGeometryScene /> */}
+        <ShaderSecondPartScene />
         {/* </ScrollControls> */}
       </Suspense>
     </Canvas>
