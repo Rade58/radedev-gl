@@ -19,6 +19,8 @@ import MoonScene from "./MoonScene";
 import BrickScene from "./BrickScene";
 import BuffGeometryScene from "./BufferGeometryScene";
 import ShaderSecondPartScene from "./ShadersSecondPartScene";
+import FragShaderPracticeScene from "./FragShaderPracticeScene";
+import ShaderFinalScene from "./ShaderFinalScene";
 //
 
 export default function Scene() {
@@ -39,7 +41,7 @@ export default function Scene() {
         // ---------------------------------------
         // ------ perspective camera ------
         // isPerspectiveCamera: true,
-        fov: 45,
+        fov: 50,
         // near: 0.1,
         near: 0.01,
         far: 100,
@@ -74,7 +76,9 @@ export default function Scene() {
         {/* <MoonScene /> */}
         {/* <BrickScene /> */}
         {/* <BuffGeometryScene /> */}
-        <ShaderSecondPartScene />
+        {/* <ShaderSecondPartScene /> */}
+        {/* <FragShaderPracticeScene /> */}
+        <ShaderFinalScene />
         {/* </ScrollControls> */}
       </Suspense>
     </Canvas>
