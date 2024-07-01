@@ -40,7 +40,7 @@ import { usePlayhead } from "@/hooks/usePlayhead";
 // -------------------------------------------------------------
 
 import fragmentShader from "@/shaders/lesson_3/lesson3.frag";
-import vertexShader from "@/shaders/default.vert";
+import vertexShader from "@/shaders/lesson_3/lesson3.vert";
 
 // -------------------------------------------------------------
 // -------------------------------------------------------------
@@ -158,6 +158,15 @@ export default function ShaderSecondPartScene() {
             },
             aspect: {
               value: aspect,
+            },
+            //
+            stretch: {
+              value: 1,
+            },
+
+            //
+            foo: {
+              value: 6,
             },
           }}
         />
