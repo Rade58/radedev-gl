@@ -136,6 +136,8 @@ export default function ShaderSecondPartScene() {
 
         shaderRef.current.uniforms.aspect.value = aspect;
         shaderRef.current.uniforms.time.value = time;
+
+        shaderRef.current.uniforms.stretch.value = time * 0.2;
       }
     }
   );
