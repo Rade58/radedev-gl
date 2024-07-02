@@ -79,8 +79,8 @@ export default function Scene() {
         {/* <BuffGeometryScene /> */}
         {/* <ShaderSecondPartScene /> */}
         {/* <FragShaderPracticeScene /> */}
-        <ShaderFinalScene />
-        {/* <HidronFinalScene /> */}
+        {/* <ShaderFinalScene /> */}
+        <HidronFinalScene />
         {/* </ScrollControls> */}
       </Suspense>
     </Canvas>

@@ -19,6 +19,9 @@ import {
   PerspectiveCamera,
   ShaderMaterial,
   Color,
+  IcosahedronGeometry,
+  Float32BufferAttribute,
+  SphereGeometry,
 } from "three";
 
 // -------------------------------------------------------------
@@ -68,6 +71,7 @@ export default function HidronFinalScene() {
   // --------------------------------------------------------
   // --------------------------------------------------------
   const materialRef = useRef<ShaderMaterial | null>(null);
+  const icosGeoRef = useRef<IcosahedronGeometry | null>(null);
   // --------------------------------------------------------
   // --------------------------------------------------------
 
@@ -102,6 +106,39 @@ export default function HidronFinalScene() {
 
     // ---------------------------------------------------
     // ---------------------------------------------------
+    // taking vertices from icosahedron geometry
+    if (icosGeoRef.current) {
+      // like this
+      // const vertices = icosGeoRef.current.attributes.position;
+      // or like this
+      // @ts-expect-error buffer attribute
+      const buffAttr: Float32BufferAttribute =
+        icosGeoRef.current.getAttribute("position");
+
+      const vertices = buffAttr.array;
+
+      //
+      const sphereGeo = new SphereGeometry(0.1, 16, 32);
+      const basicMater = new MeshBasicMaterial({
+        color: "crimson",
+        // wireframe: true,
+      });
+
+      for (let i = 0; i < vertices.length; i += 3) {
+        const x = vertices[i];
+        const y = vertices[i + 1];
+        const z = vertices[i + 2];
+        //
+
+        const mesh = new Mesh(sphereGeo, basicMater);
+
+        mesh.position.set(x, y, z);
+
+        scene.add(mesh);
+      }
+    }
+
+    //
 
     // pointLight.position.set(14, 31, -31).multiplyScalar(3);
   }, []);
@@ -148,7 +185,11 @@ export default function HidronFinalScene() {
       {/* <axesHelper /> */}
       <pointLight color={"white"} intensity={4} position={[-5, 5, 5]} />
       <mesh>
-        <icosahedronGeometry args={[1, 0]} />
+        <icosahedronGeometry
+          // @ts-expect-error ref
+          ref={icosGeoRef}
+          args={[1, 0]}
+        />
         {/* <boxGeometry args={[1, 1, 1]} /> */}
         <shaderMaterial
           // @ts-expect-error ref
