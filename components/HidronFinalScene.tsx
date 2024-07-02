@@ -40,13 +40,13 @@ import { usePlayheadBackForth } from "@/hooks/usePlayheadBackForth";
 import { usePlayhead } from "@/hooks/usePlayhead";
 // -------------------------------------------------------------
 
-import fragmentShader from "@/shaders/final/final.frag";
-import vertexShader from "@/shaders/final/final.vert";
+import vertexShader from "@/shaders/hidron_final/hidron.vert";
+import fragmentShader from "@/shaders/hidron_final/hidron.frag";
 
 // -------------------------------------------------------------
 // -------------------------------------------------------------
 
-export default function ShaderFinalScene() {
+export default function HidronFinalScene() {
   // ------------------------------------------------------
   // ------------------------------------------------------
   const zoom = 1;
@@ -67,7 +67,7 @@ export default function ShaderFinalScene() {
 
   // --------------------------------------------------------
   // --------------------------------------------------------
-  const shaderRef = useRef<ShaderMaterial | null>(null);
+  const materialRef = useRef<ShaderMaterial | null>(null);
   // --------------------------------------------------------
   // --------------------------------------------------------
 
@@ -86,7 +86,7 @@ export default function ShaderFinalScene() {
   const pall = pick(palettes);
 
   useEffect(() => {
-    gl.setClearColor("#fff", 1);
+    gl.setClearColor(bg_base, 1);
     // gl.setClearColor(bg_base, 1);
     // gl.setClearColor(pick(pick(palettes)), 1);
 
@@ -133,13 +133,12 @@ export default function ShaderFinalScene() {
       { viewport: { aspect }, scene: sc, clock: { elapsedTime: time } },
       delta
     ) => {
-      if (shaderRef.current) {
+      if (materialRef.current) {
         // console.log({ time });
+        materialRef.current.uniforms.aspect.value = aspect;
+        materialRef.current.uniforms.time.value = time;
 
-        shaderRef.current.uniforms.aspect.value = aspect;
-        shaderRef.current.uniforms.time.value = time;
-
-        shaderRef.current.uniforms.stretch.value = time * 0.2;
+        materialRef.current.uniforms.stretch.value = time * 0.2;
       }
     }
   );
@@ -147,13 +146,13 @@ export default function ShaderFinalScene() {
   return (
     <>
       {/* <axesHelper /> */}
-      {/* <pointLight color={"crimson"} intensity={4} position={[-5, 5, 5]} /> */}
+      <pointLight color={"white"} intensity={4} position={[-5, 5, 5]} />
       <mesh>
+        <icosahedronGeometry args={[1, 0]} />
         {/* <boxGeometry args={[1, 1, 1]} /> */}
-        <sphereGeometry args={[1, 34, 18]} />
         <shaderMaterial
           // @ts-expect-error ref
-          ref={shaderRef}
+          ref={materialRef}
           // args={[{}]}
           vertexShader={vertexShader}
           fragmentShader={fragmentShader}

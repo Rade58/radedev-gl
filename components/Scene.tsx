@@ -21,6 +21,7 @@ import BuffGeometryScene from "./BufferGeometryScene";
 import ShaderSecondPartScene from "./ShadersSecondPartScene";
 import FragShaderPracticeScene from "./FragShaderPracticeScene";
 import ShaderFinalScene from "./ShaderFinalScene";
+import HidronFinalScene from "./HidronFinalScene";
 //
 
 export default function Scene() {
@@ -79,6 +80,7 @@ export default function Scene() {
         {/* <ShaderSecondPartScene /> */}
         {/* <FragShaderPracticeScene /> */}
         <ShaderFinalScene />
+        {/* <HidronFinalScene /> */}
         {/* </ScrollControls> */}
       </Suspense>
     </Canvas>
