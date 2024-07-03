@@ -1,1 +1,3 @@
-# This is the last exercise of exploring Three.js and react Three Fiber
+# This exercise won't produce wanted results I wanted
+
+Because we didn't load all point vectors inside shader

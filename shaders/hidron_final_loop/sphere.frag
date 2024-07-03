@@ -1,21 +1,20 @@
 precision highp float;
 
-
 #define PI 3.14;
 
 uniform float time;
 uniform float aspect;
 
-
+// defined in vertex shader
 varying vec3 vPosition;
 
-
 // declared by glsl when we passed a #define
+// can't declare it here, it will create error
 // #define int POINT_COUNT;
 
-
-// ignore this I didn't use it here
-// uniform vec3 points[POINT_COUNT];
+// no idea why we write it like this, but this will allow
+// us to use loop
+uniform vec3 points[POINT_COUNT];
 
 
 // this represent texture coordinates
@@ -33,21 +32,16 @@ void main(){
   float dist = 10000.0;
 
 
-  // for ( int i = 0; i < POINT_COUNT; i++) {
-  //   vec3 p = points[i];
+  for ( int i = 0; i < POINT_COUNT; i++) {
+    vec3 p = points[i];
    
-  //   // vPoition is defined in vertex shader but we declared here also
+    // vPoition is defined in vertex shader but we declared here also
    
-  //   float d = distance(vPosition, p);
+    float d = distance(vPosition, p);
 
-  //   dist = min(d, dist);
+    dist = min(d, dist);
 
-  // }
-
-
-
-  float d = distance(vPosition, point);
-  dist = min(d, dist);
+  }
 
 
   float mask = step(0.16, dist);

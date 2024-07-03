@@ -46,16 +46,13 @@ import { usePlayheadBackForth } from "@/hooks/usePlayheadBackForth";
 import { usePlayhead } from "@/hooks/usePlayhead";
 // -------------------------------------------------------------
 
-import vertexShader from "@/shaders/hidron_final/hidron.vert";
-import fragmentShader from "@/shaders/hidron_final/hidron.frag";
-
-import circleFragment from "@/shaders/hidron_final/circle/circle.frag";
-import circleVertex from "@/shaders/hidron_final/circle/circle.vert";
+import vertexShader from "@/shaders/hidron_final_loop/sphere.vert";
+import fragmentShader from "@/shaders/hidron_final_loop/sphere.frag";
 
 // -------------------------------------------------------------
 // -------------------------------------------------------------
 
-export default function HidronFinalScene() {
+export default function HidronFinalLoopScene() {
   // ------------------------------------------------------
   // ------------------------------------------------------
   const zoom = 1;
@@ -77,6 +74,7 @@ export default function HidronFinalScene() {
   // --------------------------------------------------------
   // --------------------------------------------------------
   const materialRef = useRef<ShaderMaterial | null>(null);
+
   // const sphareGeoRef = useRef<SphereGeometry | null>(null);
   // const pointsAmountRef = useRef<number>(0);
   // --------------------------------------------------------
@@ -128,35 +126,86 @@ export default function HidronFinalScene() {
 
     // use circle geometry instead of spheres
     // const geom = new SphereGeometry(0.1, 16, 32);
-    const geom = new CircleGeometry(0.6, 32);
+    // const geom = new CircleGeometry(0.6, 32);
     /* const basicMater = new MeshBasicMaterial({
         color: "crimson",
         // wireframe: true,
         side: BackSide,
       }); */
 
-    let pointsCount = 0;
-    // const points: [number, number, number][] = [];
+    const points: Vector3[] = [];
 
-    const col = new Vector3(0.2, 0.19, 0.11);
+    // const col = new Vector3(0.2, 0.19, 0.11);
 
     for (let i = 0; i < vertices.length; i += 3) {
       const x = vertices[i];
       const y = vertices[i + 1];
       const z = vertices[i + 2];
-      //
+
+      points.push(new Vector3(x, y, z));
+    }
+
+    const geo = new SphereGeometry(1, 16, 32);
+
+    const mat = new ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms: {
+        time: {
+          value: initialElapsedTime,
+        },
+        aspect: {
+          value: aspect,
+        },
+        //
+        stretch: {
+          value: 1,
+        },
+        //
+        color: {
+          value: new Vector3(0.7, 0.3, 0.2),
+        },
+
+        points: {
+          value: points,
+        },
+        //
+
+        //
+        foo: {
+          value: 6,
+        },
+      },
+      defines: {
+        POINT_COUNT: points.length,
+      },
+    });
+
+    materialRef.current = mat;
+
+    const mesh = new Mesh(geo, mat);
+
+    scene.add(mesh);
+
+    /* if (materialRef.current) {
+      materialRef.current.defines["POINT_COUNT"] = points.length;
+      materialRef.current.uniforms["points"].value = points;
+    }
+    */
+
+    /* points.forEach((vec3) => {
       // points.push([x, y, z]);
 
       const shaderMaterial = new ShaderMaterial({
         vertexShader: circleVertex,
         fragmentShader: circleFragment,
         defines: {
-          POINT_COUNT: pointsCount,
+          POINT_COUNT: points.length,
         },
         uniforms: {
           // points: { value: points },
-          point: {
-            value: new Vector3(x, y, z),
+          points: {
+            value: points,
           },
           color: { value: col },
         },
@@ -164,13 +213,11 @@ export default function HidronFinalScene() {
 
       const mesh = new Mesh(geom, shaderMaterial);
 
-      mesh.position.set(x, y, z);
+      mesh.position.set(vec3.x, vec3.y, vec3.z);
       mesh.scale.setScalar(0.17 * gaussian());
       mesh.lookAt(mainVec);
       scene.add(mesh);
-
-      pointsCount++;
-    }
+    }); */
 
     // pointsAmountRef.current = pointsCount;
 
@@ -220,21 +267,21 @@ export default function HidronFinalScene() {
     <>
       {/* <axesHelper /> */}
       <pointLight color={"white"} intensity={4} position={[-5, 5, 5]} />
-      <mesh>
-        {/* <icosahedronGeometry
+      {/* <mesh> */}
+      {/* <icosahedronGeometry
           ref={icosGeoRef}
           args={[1, 0]}
         /> */}
 
-        <sphereGeometry args={[1, 16, 32]} />
+      {/* <sphereGeometry args={[1, 16, 32]} /> */}
 
-        {/* <boxGeometry args={[1, 1, 1]} /> */}
-        <shaderMaterial
+      {/* <boxGeometry args={[1, 1, 1]} /> */}
+      {/* <shaderMaterial
           // @ts-expect-error ref
           ref={materialRef}
           // args={[{}]}
           vertexShader={vertexShader}
-          fragmentShader={fragmentShader}
+          fragmentShader={circleFragment}
           // wireframe
           uniforms={{
             time: {
@@ -252,11 +299,10 @@ export default function HidronFinalScene() {
               value: new Color("#fff"),
             },
 
-            //
-            /* POINT_COUNT: {
-              value: pointsAmountRef.current,
-            }, */
-
+           
+            points: {
+              value: [],
+            },
             //
 
             //
@@ -264,8 +310,8 @@ export default function HidronFinalScene() {
               value: 6,
             },
           }}
-        />
-      </mesh>
+        /> */}
+      {/* </mesh> */}
     </>
   );
 }
