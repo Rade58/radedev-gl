@@ -22,6 +22,8 @@ import {
   IcosahedronGeometry,
   Float32BufferAttribute,
   SphereGeometry,
+  CircleGeometry,
+  BackSide,
 } from "three";
 
 // -------------------------------------------------------------
@@ -33,6 +35,7 @@ import {
   setSeed,
   range,
   pick,
+  gaussian,
 } from "canvas-sketch-util/random";
 // -------------------------------------------------------------
 
@@ -45,6 +48,9 @@ import { usePlayhead } from "@/hooks/usePlayhead";
 
 import vertexShader from "@/shaders/hidron_final/hidron.vert";
 import fragmentShader from "@/shaders/hidron_final/hidron.frag";
+
+import circleFragment from "@/shaders/hidron_final/circle/circle.frag";
+import circleVertex from "@/shaders/hidron_final/circle/circle.vert";
 
 // -------------------------------------------------------------
 // -------------------------------------------------------------
@@ -71,7 +77,8 @@ export default function HidronFinalScene() {
   // --------------------------------------------------------
   // --------------------------------------------------------
   const materialRef = useRef<ShaderMaterial | null>(null);
-  const icosGeoRef = useRef<IcosahedronGeometry | null>(null);
+  // const sphareGeoRef = useRef<SphereGeometry | null>(null);
+  // const pointsAmountRef = useRef<number>(0);
   // --------------------------------------------------------
   // --------------------------------------------------------
 
@@ -94,9 +101,10 @@ export default function HidronFinalScene() {
     // gl.setClearColor(bg_base, 1);
     // gl.setClearColor(pick(pick(palettes)), 1);
 
-    // const mainVec = new Vector3();
+    const mainVec = new Vector3();
     // setLookatVector(mainVec);
-    camera.lookAt(new Vector3());
+    // camera.lookAt(new Vector3());
+    camera.lookAt(mainVec);
 
     // const directLight = new DirectionalLight("white", 2);
     // const ambientLight = new AmbientLight("#351430", 1);
@@ -107,36 +115,64 @@ export default function HidronFinalScene() {
     // ---------------------------------------------------
     // ---------------------------------------------------
     // taking vertices from icosahedron geometry
-    if (icosGeoRef.current) {
-      // like this
-      // const vertices = icosGeoRef.current.attributes.position;
-      // or like this
-      // @ts-expect-error buffer attribute
-      const buffAttr: Float32BufferAttribute =
-        icosGeoRef.current.getAttribute("position");
 
-      const vertices = buffAttr.array;
+    const icosGeo = new IcosahedronGeometry(1, 0);
 
-      //
-      const sphereGeo = new SphereGeometry(0.1, 16, 32);
-      const basicMater = new MeshBasicMaterial({
+    // like this
+    // const vertices = icosGeo.attributes.position;
+    // or like this
+    // @ts-expect-error buffer attribute
+    const buffAttr: Float32BufferAttribute = icosGeo.getAttribute("position");
+
+    const vertices = buffAttr.array;
+
+    // use circle geometry instead of spheres
+    // const geom = new SphereGeometry(0.1, 16, 32);
+    const geom = new CircleGeometry(0.6, 32);
+    /* const basicMater = new MeshBasicMaterial({
         color: "crimson",
         // wireframe: true,
+        side: BackSide,
+      }); */
+
+    let pointsCount = 0;
+    const points: [number, number, number][] = [];
+
+    for (let i = 0; i < vertices.length; i += 3) {
+      const x = vertices[i];
+      const y = vertices[i + 1];
+      const z = vertices[i + 2];
+      //
+      points.push([x, y, z]);
+      pointsCount++;
+    }
+
+    console.log({ points });
+
+    points.forEach(([x, y, z]) => {
+      const shaderMaterial = new ShaderMaterial({
+        vertexShader: circleVertex,
+        fragmentShader: circleFragment,
+        defines: {
+          POINT_COUNT: pointsCount,
+        },
+        uniforms: {
+          points: { value: points },
+          point: {
+            value: new Vector3(x, y, z),
+          },
+        },
       });
 
-      for (let i = 0; i < vertices.length; i += 3) {
-        const x = vertices[i];
-        const y = vertices[i + 1];
-        const z = vertices[i + 2];
-        //
+      const mesh = new Mesh(geom, shaderMaterial);
 
-        const mesh = new Mesh(sphereGeo, basicMater);
+      mesh.position.set(x, y, z);
+      mesh.scale.setScalar(0.17 * gaussian());
+      mesh.lookAt(mainVec);
+      scene.add(mesh);
+    });
 
-        mesh.position.set(x, y, z);
-
-        scene.add(mesh);
-      }
-    }
+    // pointsAmountRef.current = pointsCount;
 
     //
 
@@ -185,11 +221,13 @@ export default function HidronFinalScene() {
       {/* <axesHelper /> */}
       <pointLight color={"white"} intensity={4} position={[-5, 5, 5]} />
       <mesh>
-        <icosahedronGeometry
-          // @ts-expect-error ref
+        {/* <icosahedronGeometry
           ref={icosGeoRef}
           args={[1, 0]}
-        />
+        /> */}
+
+        <sphereGeometry args={[1, 16, 32]} />
+
         {/* <boxGeometry args={[1, 1, 1]} /> */}
         <shaderMaterial
           // @ts-expect-error ref
@@ -213,6 +251,13 @@ export default function HidronFinalScene() {
             color: {
               value: new Color("#fff"),
             },
+
+            //
+            /* POINT_COUNT: {
+              value: pointsAmountRef.current,
+            }, */
+
+            //
 
             //
             foo: {
